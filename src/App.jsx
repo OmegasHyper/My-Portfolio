@@ -36,7 +36,7 @@ export default function App() {
       >
         <a href="https://www.linkedin.com/in/mohamed-abdelrazek-a3b342298/" target="_blank" rel="noopener noreferrer">
           <motion.img
-            src="../imgs/1753371616105.jpg"
+            src="/imgs/1753371616105.jpg"
             alt="Mohamed Abdelrazek"
             className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white shadow-lg hover:shadow-xl transition"
             initial={{ opacity: 0, scale: 0.8 }}
