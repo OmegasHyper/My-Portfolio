@@ -78,7 +78,7 @@ export default function App() {
               <span className="px-2 py-1 bg-purple-100 text-purple-600 text-sm rounded-lg">Tailwind</span>
               <span className="px-2 py-1 bg-pink-100 text-pink-600 text-sm rounded-lg">Framer Motion</span>
             </div>
-            <a href="#" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
+            <a href="https://mohamed-abdelrazek-portfolio.netlify.app/" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transition">
