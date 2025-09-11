@@ -70,8 +70,8 @@ export default function App() {
       >
         <h3 className="text-2xl font-bold text-center mb-8">Projects</h3>
         <div className="grid md:grid-cols-3 gap-6">
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transition">
-            <h3 className="font-semibold text-xl mb-2">React Portfolio</h3>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>React Portfolio</h3>
             <p className="text-indigo-700 dark:text-gray-300 mb-4">A modern portfolio built with React, Tailwind, and Framer Motion.</p>
             <div className="flex flex-wrap gap-2 mb-4">
               <span className="px-2 py-1 bg-indigo-100 text-indigo-600 text-sm rounded-lg">React</span>
@@ -81,19 +81,19 @@ export default function App() {
             <a href="https://mohamed-abdelrazek-portfolio.netlify.app/" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transition">
-            <h3 className="font-semibold text-xl mb-2">Tower Defense game (Python)</h3>
-            <p className="text-indigo-700 dark:text-gray-300 mb-4">Academic project implementing core algorithms in Python.</p>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>Tower Defense game</h3>
+            <p className="text-indigo-700 dark:text-gray-300 mb-4">A game created with PyGame library implementing core algorithms and Data structure in Python.</p>
             <div className="flex flex-wrap gap-2 mb-4">
               <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">Python</span>
               <span className="px-2 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg">Algorithms</span>
-              <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">Data Structures</span>
+              <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">Data Structure</span>
             </div>
             <a href="https://github.com/OmegasHyper/Castle_Defense" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 transition">
-            <h3 className="font-semibold text-xl mb-2">DeepXDE Research</h3>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>DeepXDE Research</h3>
             <p className="text-indigo-700 dark:text-gray-300 mb-4">Solving biomedical ODEs (Diabetes Glucose Tolerance Test) using DeepXDE in Python.</p>
             <div className="flex flex-wrap gap-2 mb-4">
               <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">Python</span>
@@ -102,12 +102,23 @@ export default function App() {
             </div>
             <a href="https://github.com/Jiro75/Diabetes-Mellitus-Prediction-Using-DL.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
           </motion.div>
+
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>News website</h3>
+            <p className="text-indigo-700 dark:text-gray-300 mb-4">A multipage website that shows both general and sports news, with a focus on premier league.</p>
+            <div className="flex flex-wrap gap-2 mb-4">
+              <span className="px-2 py-1 bg-orange-100 text-orange-700 text-sm rounded-lg">HTML</span>
+              <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-lg">JavaScript</span>
+              <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded-lg">CSS</span>
+            </div>
+            <a href="https://github.com/OmegasHyper/News-Task-Depi-Team4.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
+          </motion.div>
         </div>
       </motion.section>
 
       {/* Skills Section */}
       <motion.section 
-        className="p-10 bg-gray-100 dark:bg-gray-900"
+        className="p-10"
         variants={fadeInUp}
         initial="hidden"
         whileInView="visible"
@@ -116,30 +127,30 @@ export default function App() {
       >
         <h3 className="text-2xl font-bold text-center mb-6">Skills</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition">
-            <p className="font-semibold text-indigo-800 dark:text-white">React</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+              <p className="font-semibold text-indigo-800 dark:text-white">React</p>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <p className="font-semibold text-indigo-800 dark:text-white">Java</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <p className="font-semibold text-indigo-800 dark:text-white">Python</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <p className="font-semibold text-indigo-800 dark:text-white">Tailwind CSS</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <p className="font-semibold text-indigo-800 dark:text-white">Framer Motion</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <p className="font-semibold text-indigo-800 dark:text-white">HTML & CSS</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <p className="font-semibold text-indigo-800 dark:text-white">JavaScript (ES6+)</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <p className="font-semibold text-indigo-800 dark:text-white">Git & GitHub</p>
-          </div>
+          </motion.div>
         </div>
       </motion.section>
 
