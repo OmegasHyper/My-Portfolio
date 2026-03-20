@@ -70,48 +70,82 @@ export default function App() {
       >
         <h3 className="text-2xl font-bold text-center mb-8">Projects</h3>
         <div className="grid md:grid-cols-3 gap-6">
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>React Portfolio</h3>
             <p className="text-indigo-700 dark:text-gray-300 mb-4">A modern portfolio built with React, Tailwind, and Framer Motion.</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="px-2 py-1 bg-indigo-100 text-indigo-600 text-sm rounded-lg">React</span>
-              <span className="px-2 py-1 bg-purple-100 text-purple-600 text-sm rounded-lg">Tailwind</span>
-              <span className="px-2 py-1 bg-pink-100 text-pink-600 text-sm rounded-lg">Framer Motion</span>
+            <div className="mt mt-auto">
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="px-2 py-1 bg-indigo-100 text-indigo-600 text-sm rounded-lg">React</span>
+                <span className="px-2 py-1 bg-purple-100 text-purple-600 text-sm rounded-lg">Tailwind</span>
+                <span className="px-2 py-1 bg-pink-100 text-pink-600 text-sm rounded-lg">Framer Motion</span>
+              </div>
+              <a href="https://mohamed-abdelrazek-portfolio.netlify.app/" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
             </div>
-            <a href="https://mohamed-abdelrazek-portfolio.netlify.app/" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>Tower Defense game</h3>
             <p className="text-indigo-700 dark:text-gray-300 mb-4">A game created with PyGame library implementing core algorithms and Data structure in Python.</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">Python</span>
-              <span className="px-2 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg">Algorithms</span>
-              <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">Data Structure</span>
+            <div className="mt mt-auto">
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">Python</span>
+                <span className="px-2 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg">Algorithms</span>
+                <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">Data Structure</span>
+              </div>
+              <a href="https://github.com/OmegasHyper/Castle_Defense" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
             </div>
-            <a href="https://github.com/OmegasHyper/Castle_Defense" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>DeepXDE Research</h3>
             <p className="text-indigo-700 dark:text-gray-300 mb-4">Solving biomedical ODEs (Diabetes Glucose Tolerance Test) using DeepXDE in Python.</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">Python</span>
-              <span className="px-2 py-1 bg-red-100 text-red-600 text-sm rounded-lg">DeepXDE</span>
-              <span className="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">Numerical Methods</span>
+            <div className="mt mt-auto">
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">Python</span>
+                <span className="px-2 py-1 bg-red-100 text-red-600 text-sm rounded-lg">DeepXDE</span>
+                <span className="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">Numerical Methods</span>
+              </div>
+              <a href="https://github.com/Jiro75/Diabetes-Mellitus-Prediction-Using-DL.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
             </div>
-            <a href="https://github.com/Jiro75/Diabetes-Mellitus-Prediction-Using-DL.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
           </motion.div>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>News website</h3>
             <p className="text-indigo-700 dark:text-gray-300 mb-4">A multipage website that shows both general and sports news, with a focus on premier league.</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="px-2 py-1 bg-orange-100 text-orange-700 text-sm rounded-lg">HTML</span>
-              <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-lg">JavaScript</span>
-              <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded-lg">CSS</span>
+            <div className="mt mt-auto">
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="px-2 py-1 bg-orange-100 text-orange-700 text-sm rounded-lg">HTML</span>
+                <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-lg">JavaScript</span>
+                <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded-lg">CSS</span>
+              </div>
+              <a href="https://github.com/OmegasHyper/News-Task-Depi-Team4.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
             </div>
-            <a href="https://github.com/OmegasHyper/News-Task-Depi-Team4.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
+            </motion.div>
+
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>Signal Viewer</h3>
+            <p className="text-indigo-700 dark:text-gray-300 mb-4">An interactive web-based signal viewer for visualizing and analyzing time-domain data with zooming and real-time updates. Designed for quick exploration of signal patterns and behavior through a simple, intuitive interface.</p>
+            <div className="mt mt-auto">
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">NextJS</span>
+                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">FastAPI</span>
+                <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded-lg">Tailwind</span>
+              </div>
+              <a href="https://github.com/OmegasHyper/DSP-Signal-Viewer.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
+            </div>
+            </motion.div>
+
+          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
+            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>Signal Equalizer</h3>
+            <p className="text-indigo-700 dark:text-gray-300 mb-4">An interactive web-based signal equalizer that allows users to adjust frequency bands and shape signals in real time. Designed for intuitive control and precise audio or data signal tuning through a clean, user-friendly interface.</p>
+            <div className="mt-auto">
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">NextJS</span>
+                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">FastAPI</span>
+                <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded-lg">Tailwind</span>
+              </div>
+              <a href="https://github.com/OmegasHyper/DSP-Signal-Equalizer.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
+            </div>
           </motion.div>
         </div>
       </motion.section>
