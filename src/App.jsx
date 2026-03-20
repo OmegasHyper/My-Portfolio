@@ -68,7 +68,7 @@ export default function App() {
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h3 className="text-2xl font-bold text-center mb-8">Projects</h3>
+        <h3 className={`text-3xl font-bold text-center mb-8 ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}>Projects</h3>
         <div className="grid md:grid-cols-3 gap-6">
           <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
             <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>React Portfolio</h3>
@@ -159,7 +159,7 @@ export default function App() {
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h3 className="text-2xl font-bold text-center mb-6">Skills</h3>
+        <h3 className={`text-3xl font-bold text-center mb-6 ${darkMode? "text-indigo-400" : "text-indigo-600"} `}>Skills</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
               <p className="font-semibold text-indigo-800 dark:text-white">React</p>
@@ -197,7 +197,7 @@ export default function App() {
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <h3 className="text-2xl font-bold mb-4">Let’s Connect</h3>
+        <h3 className="text-2xl font-bold mb-4 text-indigo-400">Let’s Connect</h3>
         <p className="mb-6 text-indigo-800 dark:text-gray-300">I’m open to collaborations and internship opportunities.</p>
         <div className="flex justify-center gap-4 flex-wrap">
           <a href="mailto:mohamed.abdelrazek.rezk@gmail.com" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Email</a>
