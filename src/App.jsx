@@ -50,7 +50,7 @@ export default function App() {
           transition={{ duration: 0.8 }}
           className="text-4xl font-bold mb-4"
         >
-          Hi, I’m Mohamed 👋
+          Hi, I’m Mohamed
         </motion.h2>
         <p className="text-lg max-w-xl mx-auto">
           I’m a Biomedical Engineering student at Cairo University passionate about
