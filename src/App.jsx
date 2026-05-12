@@ -1,211 +1,514 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {SquareCode, GitPullRequestArrow, Mail, FileUser, MoveUpRight} from "lucide-react";
+import { FaLinkedinIn } from "react-icons/fa6";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 }
-};
+gsap.registerPlugin(ScrollTrigger);
 
+// ── Data ──────────────────────────────────────────────────────────────────────
+const NAV_LINKS = ["About", "Skills", "Projects", "Contact"];
+
+const PROJECTS = [
+  {
+    num: "01", title: "Signal Viewer",
+    desc: "Interactive web-based viewer for visualizing time-domain signals with real-time zooming and updates.",
+    tags: ["Next.js", "FastAPI", "Tailwind"],
+    link: "https://github.com/OmegasHyper/DSP-Signal-Viewer.git",
+  },
+  {
+    num: "02", title: "Signal Equalizer",
+    desc: "Real-time web equalizer enabling frequency band adjustment and precise signal shaping.",
+    tags: ["Next.js", "FastAPI", "Tailwind"],
+    link: "https://github.com/OmegasHyper/DSP-Signal-Equalizer.git",
+  },
+  {
+    num: "03", title: "News Website",
+    desc: "Multi-page news platform covering general and Premier League sports news.",
+    tags: ["HTML", "JavaScript", "CSS"],
+    link: "https://github.com/OmegasHyper/News-Task-Depi-Team4.git",
+  },
+  {
+    num: "04", title: "Tower Defense Game",
+    desc: "PyGame tower defense implementing core algorithms and data structures in Python.",
+    tags: ["Python", "PyGame", "Algorithms"],
+    link: "https://github.com/OmegasHyper/Castle_Defense",
+  },
+  {
+    num: "05", title: "DeepXDE Research",
+    desc: "Physics-Informed Neural Networks solving biomedical ODEs for Diabetes Glucose Tolerance analysis.",
+    tags: ["Python", "DeepXDE", "ML"],
+    link: "https://github.com/Jiro75/Diabetes-Mellitus-Prediction-Using-DL.git",
+  },
+  {
+    num: "06", title: "2D Beamforming Simulator",
+    desc: "A full-stack educational simulator that demonstrates how phased arrays form and steer beams by controlling the phase and amplitude of multiple array elements.",
+    tags: ["Next.js", "Tailwind", "Recharts", "FastAPI", "NumPy"],
+    link: "https://github.com/OmegasHyper/task04-beamforming-sbeg205_spring26_task4_team10.git",
+  },
+  {
+    num: "07", title: "Fourier Transform Mixer & Properties Emphasizer",
+    desc: "A web-based interactive platform for exploring Fourier Transform concepts on 2D signals (images) through two main modes: FT Magnitude/Phase Mixer and FT Properties Emphasizer.",
+    tags: ["Next.js", "Tailwind", "FastAPI", "NumPy"],
+    link: "https://github.com/OmegasHyper/task03-ft-mixer-and-properties-emphasizer-sbeg2025_spring2026_team10.git",
+  },
+  {
+    num: "08", title: "BloodLink",
+    desc: "A web-based Real-time Blood Bank Management system for managing blood inventory, donor networks, emergency requests, and automated donor-to-patient matching.",
+    tags: ["Next.js", "Tailwind", "NestJS", "PostgreSQL"],
+    link: "https://github.com/hamdy-fathi/BloodLink.git",
+  },
+  {
+    num: "09", title: "Hospital Information System — Smart Medical Device Monitoring",
+    desc: "A comprehensive, full-stack Hospital Information System (HIS) with real-time IoT device monitoring, 3D visualization, role-based authentication, patient and staff management, billing, reports, and biomedical engineering analytics.",
+    tags: ["Next.js", "GSAP", "Recharts", "Three.js", "NestJS", "PostgreSQL", "Socket.IO"],
+    link: "https://github.com/hamdy-fathi/incubator-his-showcase.git",
+  },
+];
+
+const SKILLS = [
+  { name: "React / Next.js",      level: 95 },
+  { name: "JavaScript (ES6+)",    level: 90 },
+  { name: "Tailwind CSS",         level: 90 },
+  { name: "Git & GitHub",         level: 85 },
+  { name: "GSAP / Framer Motion", level: 80 },
+  { name: "Python",               level: 80 },
+  { name: "FastAPI",              level: 80 },
+];
+
+const FLOAT_WORDS = [
+  { text: "React",         x: "8%",  y: "18%", size: 13 },
+  { text: "useEffect()",  x: "78%", y: "22%", size: 11 },
+  { text: "const =>",     x: "68%", y: "68%", size: 12 },
+  { text: "GSAP",         x: "14%", y: "72%", size: 15 },
+  { text: "CSS Grid",     x: "48%", y: "82%", size: 11 },
+  { text: "async/await",  x: "82%", y: "52%", size: 11 },
+  { text: "<Component/>", x: "4%",  y: "48%", size: 12 },
+  { text: "useState()",   x: "52%", y: "12%", size: 11 },
+  { text: "npm install",  x: "30%", y: "90%", size: 10 },
+  { text: "TypeScript",   x: "38%", y: "58%", size: 11 },
+];
+
+const STATS = [
+  { value: 6,   suffix: "+", label: "Projects Built" },
+  { value: 2,   suffix: "+", label: "Years Coding" },
+  { value: 8,   suffix: "+", label: "Tech Skills" },
+  { value: 100, suffix: "%", label: "Dedication" },
+];
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function SplitChars({ text, className }) {
+  return (
+    <span className={className} aria-label={text}>
+      {text.split("").map((ch, i) => (
+        <span key={i} className="char" style={{ display: "inline-block", whiteSpace: ch === " " ? "pre" : "normal" }}>
+          {ch}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+// ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [activeSection, setActiveSection] = useState("About");
+  const [menuOpen, setMenuOpen]           = useState(false);
+
+  // refs
+  const cursorRingRef  = useRef(null);
+  const cursorDotRef   = useRef(null);
+  const aboutRef       = useRef(null);
+  const skillsRef      = useRef(null);
+  const projectsRef    = useRef(null);
+  const contactRef     = useRef(null);
+
+  // Custom cursor
+  useEffect(() => {
+    const ring = cursorRingRef.current;
+    const dot  = cursorDotRef.current;
+    const onMove = (e) => {
+      gsap.to(ring, { x: e.clientX - 20, y: e.clientY - 20, duration: 0.35, ease: "power2.out" });
+      gsap.to(dot,  { x: e.clientX - 4,  y: e.clientY - 4,  duration: 0.1  });
+    };
+    const grow   = () => gsap.to(ring, { scale: 1.6, duration: 0.2 });
+    const shrink = () => gsap.to(ring, { scale: 1,   duration: 0.2 });
+    window.addEventListener("mousemove", onMove);
+    document.querySelectorAll("a,button").forEach(el => {
+      el.addEventListener("mouseenter", grow);
+      el.addEventListener("mouseleave", shrink);
+    });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+
+  // Hero entrance animation
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Floating words
+      gsap.utils.toArray(".floating-word").forEach((el, i) => {
+        gsap.to(el, {
+          y: "random(-18,18)", x: "random(-10,10)",
+          duration: gsap.utils.random(3, 6),
+          repeat: -1, yoyo: true, ease: "sine.inOut", delay: i * 0.15,
+        });
+      });
+
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.from(".navbar",        { y: -80, opacity: 0, duration: 0.7 })
+        .from(".hero-tag",      { y: 24,  opacity: 0, duration: 0.5 }, "-=0.25")
+        .from(".hero-name .char", {
+          y: 90, opacity: 0, stagger: 0.025, duration: 0.65, ease: "back.out(1.5)",
+        }, "-=0.2")
+        .from(".hero-role",     { y: 20, opacity: 0, duration: 0.5 }, "-=0.3")
+        .from(".hero-desc",     { y: 20, opacity: 0, duration: 0.5 }, "-=0.3")
+        .from(".hero-cta > *",  { y: 18, opacity: 0, stagger: 0.12, duration: 0.45 }, "-=0.25")
+        .from(".hero-image-side", { scale: 0.55, opacity: 0, duration: 0.8, ease: "back.out(1.7)" }, "-=0.9");
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // Scroll animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Section headings
+      gsap.utils.toArray(".section-title").forEach(el => {
+        gsap.from(el, {
+          scrollTrigger: { trigger: el, start: "top 88%", once: true },
+          y: 35, opacity: 0, duration: 0.65, ease: "power3.out",
+        });
+      });
+
+      // About
+      const aboutEl = aboutRef.current;
+      ScrollTrigger.create({
+        trigger: aboutEl, start: "top 80%", once: true,
+        onEnter: () => {
+          gsap.from(aboutEl.querySelectorAll(".about-text"), {
+            y: 30, opacity: 0, stagger: 0.12, duration: 0.6, ease: "power3.out",
+          });
+          gsap.from(aboutEl.querySelectorAll(".about-tag"), {
+            y: 15, opacity: 0, stagger: 0.06, duration: 0.4, ease: "power3.out", delay: 0.3,
+          });
+          gsap.from(aboutEl.querySelectorAll(".stat-card"), {
+            y: 50, opacity: 0, stagger: 0.12, duration: 0.6, ease: "power3.out", delay: 0.15,
+          });
+          aboutEl.querySelectorAll(".counter").forEach(el => {
+            const target = parseInt(el.dataset.target);
+            const suffix = el.dataset.suffix || "";
+            gsap.to({ val: 0 }, {
+              val: target, duration: 2, ease: "power2.out", delay: 0.4,
+              onUpdate() { el.textContent = Math.round(this.targets()[0].val) + suffix; },
+            });
+          });
+        },
+      });
+
+      // Skills
+      const skillsEl = skillsRef.current;
+      ScrollTrigger.create({
+        trigger: skillsEl, start: "top 80%", once: true,
+        onEnter: () => {
+          gsap.from(skillsEl.querySelectorAll(".skill-item"), {
+            x: -50, opacity: 0, stagger: 0.08, duration: 0.55, ease: "power3.out",
+          });
+          gsap.utils.toArray(skillsEl.querySelectorAll(".skill-bar")).forEach(bar => {
+            gsap.to(bar, { width: `${bar.dataset.level}%`, duration: 1.4, ease: "power2.out", delay: 0.5 });
+          });
+        },
+      });
+
+      // Projects
+      const projEl = projectsRef.current;
+      ScrollTrigger.create({
+        trigger: projEl, start: "top 80%", once: true,
+        onEnter: () => {
+          gsap.from(projEl.querySelectorAll(".project-card"), {
+            y: 70, opacity: 0, stagger: 0.1, duration: 0.65, ease: "power3.out",
+          });
+        },
+      });
+
+      // Contact
+      const contactEl = contactRef.current;
+      ScrollTrigger.create({
+        trigger: contactEl, start: "top 85%", once: true,
+        onEnter: () => {
+          gsap.from(contactEl.querySelectorAll(".contact-item"), {
+            y: 35, opacity: 0, stagger: 0.1, duration: 0.55, ease: "power3.out",
+          });
+          gsap.from(contactEl.querySelector(".contact-sub"), {
+            y: 20, opacity: 0, duration: 0.55, ease: "power3.out",
+          });
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // Active section observer
+  useEffect(() => {
+    const ids = ["about", "skills", "projects", "contact"];
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => e.isIntersecting && setActiveSection(
+        e.target.id.charAt(0).toUpperCase() + e.target.id.slice(1)
+      )),
+      { threshold: 0.3 }
+    );
+    ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+    return () => obs.disconnect();
+  }, []);
+
+  const scrollTo = (id) => {
+    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
+    setMenuOpen(false);
+  };
 
   return (
-    <div className={darkMode ? "min-h-screen bg-gray-900 text-gray-100" : "min-h-screen bg-gray-50 text-indigo-900"}>
-      {/* Header */}
-      <header className="p-6 shadow bg-white dark:bg-gray-800 sticky top-0 z-50 flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">Mohamed Abdelrazek</h1>
-          <p className="text-sm text-indigo-700 dark:text-gray-300">Frontend Developer | React Enthusiast | Future Full-Stack Engineer</p>
-        </div>
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition"
-        >
-          {darkMode ? "Light Mode" : "Dark Mode"}
-        </button>
-      </header>
+    <>
+      {/* Cursor */}
+      <div ref={cursorRingRef} className="cursor-ring" />
+      <div ref={cursorDotRef}  className="cursor-dot"  />
 
-      {/* Hero Section */}
-      <motion.section 
-        className="p-10 text-center bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      >
-        <a href="https://www.linkedin.com/in/mohamed-abdelrazek-a3b342298/" target="_blank" rel="noopener noreferrer">
-          <motion.img
-            src="/imgs/1753371616105.jpg"
-            alt="Mohamed Abdelrazek"
-            className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white shadow-lg hover:shadow-xl transition"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-          />
-        </a>
-        <motion.h2
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl font-bold mb-4"
-        >
-          Hi, I’m Mohamed
-        </motion.h2>
-        <p className="text-lg max-w-xl mx-auto">
-          I’m a Biomedical Engineering student at Cairo University passionate about
-          web development. I specialize in React and I’m on my journey to becoming
-          a full-stack developer.
-        </p>
-      </motion.section>
+      <div className="portfolio-root">
 
-      {/* Projects Section */}
-      <motion.section 
-        className="p-10"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        <h3 className={`text-3xl font-bold text-center mb-8 ${darkMode ? "text-indigo-400" : "text-indigo-600"}`}>Projects</h3>
-        <div className="grid md:grid-cols-3 gap-6">
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>React Portfolio</h3>
-            <p className="text-indigo-700 dark:text-gray-300 mb-4">A modern portfolio built with React, Tailwind, and Framer Motion.</p>
-            <div className="mt mt-auto">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-2 py-1 bg-indigo-100 text-indigo-600 text-sm rounded-lg">React</span>
-                <span className="px-2 py-1 bg-purple-100 text-purple-600 text-sm rounded-lg">Tailwind</span>
-                <span className="px-2 py-1 bg-pink-100 text-pink-600 text-sm rounded-lg">Framer Motion</span>
+        {/* ── Navbar ── */}
+        <nav className="navbar">
+          <div className="nav-logo">
+            <span className="logo-bracket">&lt;</span>
+            <span className="logo-name">Mohamed</span>
+            <span className="logo-bracket">/&gt;</span>
+          </div>
+          <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+            {NAV_LINKS.map(link => (
+              <button
+                key={link}
+                className={`nav-link ${activeSection === link ? "active" : ""}`}
+                onClick={() => scrollTo(link)}
+              >
+                {link}
+              </button>
+            ))}
+            <a href="/Mohamed-Abdelrazek-CV.pdf" download className="nav-cta flex items-center gap-1">
+              Resume <MoveUpRight size={18}/>
+            </a>
+          </div>
+          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+            <span /><span /><span />
+          </button>
+        </nav>
+
+        {/* ── Hero ── */}
+        <section className="hero-section">
+          <div className="hero-grid" aria-hidden="true" />
+
+          {/* Floating keywords */}
+          <div className="hero-float-bg" aria-hidden="true">
+            {FLOAT_WORDS.map((w, i) => (
+              <span
+                key={i} className="floating-word"
+                style={{ left: w.x, top: w.y, fontSize: w.size }}
+              >
+                {w.text}
+              </span>
+            ))}
+          </div>
+
+          <div className="hero-content">
+            {/* Text side */}
+            <div className="hero-text-side">
+              <div className="hero-tag">
+                <SquareCode size={16} />
+                Frontend Developer
               </div>
-              <a href="https://mohamed-abdelrazek-portfolio.netlify.app/" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
-            </div>
-          </motion.div>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>Tower Defense game</h3>
-            <p className="text-indigo-700 dark:text-gray-300 mb-4">A game created with PyGame library implementing core algorithms and Data structure in Python.</p>
-            <div className="mt mt-auto">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">Python</span>
-                <span className="px-2 py-1 bg-gray-200 text-gray-700 text-sm rounded-lg">Algorithms</span>
-                <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">Data Structure</span>
+              <h1 className="hero-name">
+                <SplitChars text="Mohamed"     className="block" />
+                <SplitChars text="Abdelrazek"  className="block text-accent" />
+              </h1>
+
+              <p className="hero-role">
+                Building <span className="text-accent">pixel-perfect</span> interfaces
+                <br />with React &amp; modern web tech
+              </p>
+
+              <p className="hero-desc">
+                Biomedical Engineering student at Cairo University, passionate about
+                crafting performant, animated, and accessible web experiences.
+              </p>
+
+              <div className="hero-cta">
+                <button onClick={() => scrollTo("Projects")} className="btn-primary">
+                  View My Work
+                </button>
+                <button onClick={() => scrollTo("Contact")} className="btn-secondary">
+                  Get In Touch
+                </button>
               </div>
-              <a href="https://github.com/OmegasHyper/Castle_Defense" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
             </div>
-          </motion.div>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>DeepXDE Research</h3>
-            <p className="text-indigo-700 dark:text-gray-300 mb-4">Solving biomedical ODEs (Diabetes Glucose Tolerance Test) using DeepXDE in Python.</p>
-            <div className="mt mt-auto">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">Python</span>
-                <span className="px-2 py-1 bg-red-100 text-red-600 text-sm rounded-lg">DeepXDE</span>
-                <span className="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">Numerical Methods</span>
+            {/* Image side */}
+            <div className="hero-image-side">
+              <div className="avatar-wrapper">
+                <div className="avatar-ring"   aria-hidden="true" />
+                <div className="avatar-ring-2" aria-hidden="true" />
+                <a
+                  href="https://www.linkedin.com/in/mohamed-abdelrazek-a3b342298/"
+                  target="_blank" rel="noopener noreferrer"
+                >
+                  <img
+                    src="/imgs/My-image.jpg"
+                    alt="Mohamed Abdelrazek"
+                    className="avatar-img"
+                  />
+                </a>
               </div>
-              <a href="https://github.com/Jiro75/Diabetes-Mellitus-Prediction-Using-DL.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>News website</h3>
-            <p className="text-indigo-700 dark:text-gray-300 mb-4">A multipage website that shows both general and sports news, with a focus on premier league.</p>
-            <div className="mt mt-auto">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-2 py-1 bg-orange-100 text-orange-700 text-sm rounded-lg">HTML</span>
-                <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-lg">JavaScript</span>
-                <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded-lg">CSS</span>
+          
+        </section>
+
+        {/* ── About ── */}
+        <section id="about" ref={aboutRef} className="section about-section">
+          <div className="section-inner">
+            <div className="section-header">
+              <span className="section-number">// 01</span>
+              <h2 className="section-title">About Me</h2>
+            </div>
+            <div className="about-grid">
+              <div>
+                <p className="about-text">
+                  I'm a <strong>Frontend Developer</strong> specializing in the React ecosystem.
+                  My Biomedical Engineering background gives me a unique analytical perspective
+                  when building complex, data-driven interfaces.
+                </p>
+                <p className="about-text">
+                  I love turning design concepts into smooth, interactive experiences using
+                  <strong> GSAP</strong>, <strong>Framer Motion</strong>, and modern CSS.
+                  Currently growing into a full-stack engineer.
+                </p>
+                <div className="about-tags">
+                  {["React", "Next.js", "GSAP", "Tailwind", "FastAPI", "Python", "TypeScript"].map(t => (
+                    <span key={t} className="about-tag">{t}</span>
+                  ))}
+                </div>
               </div>
-              <a href="https://github.com/OmegasHyper/News-Task-Depi-Team4.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
-            </div>
-            </motion.div>
-
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>Signal Viewer</h3>
-            <p className="text-indigo-700 dark:text-gray-300 mb-4">An interactive web-based signal viewer for visualizing and analyzing time-domain data with zooming and real-time updates. Designed for quick exploration of signal patterns and behavior through a simple, intuitive interface.</p>
-            <div className="mt mt-auto">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">NextJS</span>
-                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">FastAPI</span>
-                <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded-lg">Tailwind</span>
+              <div className="stats-grid">
+                {STATS.map(s => (
+                  <div key={s.label} className="stat-card">
+                    <div className="stat-value">
+                      <span
+                        className="counter"
+                        data-target={s.value}
+                        data-suffix={s.suffix}
+                      >
+                        0{s.suffix}
+                      </span>
+                    </div>
+                    <div className="stat-label">{s.label}</div>
+                  </div>
+                ))}
               </div>
-              <a href="https://github.com/OmegasHyper/DSP-Signal-Viewer.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
             </div>
-            </motion.div>
+          </div>
+        </section>
 
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 transition flex flex-col h-full ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <h3 className={`font-semibold text-xl mb-2 ${darkMode ?  "text-indigo-400" : "text-indigo-500"}`}>Signal Equalizer</h3>
-            <p className="text-indigo-700 dark:text-gray-300 mb-4">An interactive web-based signal equalizer that allows users to adjust frequency bands and shape signals in real time. Designed for intuitive control and precise audio or data signal tuning through a clean, user-friendly interface.</p>
-            <div className="mt-auto">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <span className="px-2 py-1 bg-green-100 text-green-700 text-sm rounded-lg">NextJS</span>
-                <span className="px-2 py-1 bg-blue-100 text-blue-700 text-sm rounded-lg">FastAPI</span>
-                <span className="px-2 py-1 bg-purple-100 text-purple-700 text-sm rounded-lg">Tailwind</span>
+        {/* ── Skills ── */}
+        <section id="skills" ref={skillsRef} className="section">
+          <div className="section-inner">
+            <div className="section-header">
+              <span className="section-number">// 02</span>
+              <h2 className="section-title">Skills</h2>
+            </div>
+            <div className="skills-grid">
+              {SKILLS.map(skill => (
+                <div key={skill.name} className="skill-item">
+                  <div className="skill-header">
+                    <span className="skill-name">{skill.name}</span>
+                    <span className="skill-percent">{skill.level}%</span>
+                  </div>
+                  <div className="skill-track">
+                    <div className="skill-bar" data-level={skill.level} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Projects ── */}
+        <section id="projects" ref={projectsRef} className="section projects-section">
+          <div className="section-inner">
+            <div className="section-header">
+              <span className="section-number">// 03</span>
+              <h2 className="section-title">Projects</h2>
+            </div>
+            <div className="projects-grid">
+              {PROJECTS.map(p => (
+                <div key={p.num} className="project-card">
+                  <div className="project-num">{p.num}</div>
+                  <h3 className="project-title">{p.title}</h3>
+                  <p className="project-desc">{p.desc}</p>
+                  <div className="project-tags">
+                    {p.tags.map(t => (
+                      <span key={t} className="project-tag">{t}</span>
+                    ))}
+                  </div>
+                  <a
+                    href={p.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="project-link"
+                  >
+                    View Project →
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Contact ── */}
+        <section id="contact" ref={contactRef} className="section contact-section">
+          <div className="section-inner">
+            <div className="section-header" style={{ textAlign: "center" }}>
+              <span className="section-number">// 04</span>
+              <h2 className="section-title">Let's Connect</h2>
+            </div>
+            <div className="contact-inner">
+              <p className="contact-sub">
+                I'm open to frontend roles, collaborations, and internship opportunities.
+                Let's build something great together.
+              </p>
+              <div className="contact-links">
+                <a href="mailto:mohamed.abdelrazek.rezk@gmail.com" className="contact-item email">
+                  <Mail size={16} />
+                  Email Me
+                </a>
+                <a href="https://github.com/OmegasHyper" target="_blank" rel="noopener noreferrer" className="contact-item github">
+                  <GitPullRequestArrow size={16} />
+                  GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/mohamed-abdelrazek-a3b342298/" target="_blank" rel="noopener noreferrer" className="contact-item linkedin">
+                  <FaLinkedinIn size={16} />
+                  LinkedIn
+                </a>
+                <a href="/Mohamed-Abdelrazek-CV.pdf" download className="contact-item resume">
+                  <FileUser size={16} />
+                  Download CV
+                </a>
               </div>
-              <a href="https://github.com/OmegasHyper/DSP-Signal-Equalizer.git" className="inline-block px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">View Project</a>
             </div>
-          </motion.div>
-        </div>
-      </motion.section>
+          </div>
+        </section>
 
-      {/* Skills Section */}
-      <motion.section 
-        className="p-10"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        <h3 className={`text-3xl font-bold text-center mb-6 ${darkMode? "text-indigo-400" : "text-indigo-600"} `}>Skills</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-              <p className="font-semibold text-indigo-800 dark:text-white">React</p>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <p className="font-semibold text-indigo-800 dark:text-white">Java</p>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <p className="font-semibold text-indigo-800 dark:text-white">Python</p>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <p className="font-semibold text-indigo-800 dark:text-white">Tailwind CSS</p>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <p className="font-semibold text-indigo-800 dark:text-white">Framer Motion</p>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <p className="font-semibold text-indigo-800 dark:text-white">HTML & CSS</p>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <p className="font-semibold text-indigo-800 dark:text-white">JavaScript (ES6+)</p>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.03, boxShadow: "0px 8px 24px rgba(0,0,0,0.15)" }} className={`rounded-2xl shadow-md p-6 hover:shadow-lg transition ${darkMode ? "bg-gray-700" : "bg-gray-800"}`}>
-            <p className="font-semibold text-indigo-800 dark:text-white">Git & GitHub</p>
-          </motion.div>
-        </div>
-      </motion.section>
+        {/* ── Footer ── */}
+        <footer className="footer">
+          &lt;Built with React + GSAP by Mohamed Abdelrazek /&gt;
+        </footer>
 
-      {/* Contact */}
-      <motion.section 
-        className="p-10 text-center bg-gray-100 dark:bg-gray-900"
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
-        <h3 className="text-2xl font-bold mb-4 text-indigo-400">Let’s Connect</h3>
-        <p className="mb-6 text-indigo-800 dark:text-gray-300">I’m open to collaborations and internship opportunities.</p>
-        <div className="flex justify-center gap-4 flex-wrap">
-          <a href="mailto:mohamed.abdelrazek.rezk@gmail.com" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Email</a>
-          <a href="https://github.com/OmegasHyper" target="_blank" className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition">GitHub</a>
-          <a href="https://www.linkedin.com/in/mohamed-abdelrazek-a3b342298/" target="_blank" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">LinkedIn</a>
-          <a href="/Mohamed-Abdelrazek-CV.pdf" download className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">Download CV</a>
-        </div>
-      </motion.section>
-    </div>
+      </div>
+    </>
   );
 }
