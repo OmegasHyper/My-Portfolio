@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {SquareCode, GitPullRequestArrow, Mail, FileUser, MoveUpRight} from "lucide-react";
+import {SquareCode, GitPullRequestArrow, Mail, FileUser, MoveUpRight, CircleArrowRight} from "lucide-react";
 import { FaLinkedinIn } from "react-icons/fa6";
+import {TypingEffect} from "./typing";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -275,10 +276,26 @@ export default function App() {
         {/* ── Navbar ── */}
         <nav className="navbar">
           <div className="nav-logo">
-            <span className="logo-bracket">&lt;</span>
+            {/* <span className="logo-bracket">&lt;</span>
             <span className="logo-name">Mohamed</span>
-            <span className="logo-bracket">/&gt;</span>
-          </div>
+            <span className="logo-bracket">/&gt;</span> */}
+            <TypingEffect
+              text="<"
+              delay={0}
+              className="logo-bracket"
+            />
+            
+            <TypingEffect
+                text="Mohamed Abdelrazek"
+                delay={0.5}
+                className="logo-name"
+              />
+              <TypingEffect
+                text="/>"
+                delay={0}
+                className="logo-bracket"
+              />
+          </div>  
           <div className={`nav-links ${menuOpen ? "open" : ""}`}>
             {NAV_LINKS.map(link => (
               <button
@@ -293,7 +310,7 @@ export default function App() {
               Resume <MoveUpRight size={18}/>
             </a>
           </div>
-          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+          <button className={`hamburger ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
             <span /><span /><span />
           </button>
         </nav>
@@ -461,7 +478,8 @@ export default function App() {
                     rel="noopener noreferrer"
                     className="project-link"
                   >
-                    View Project →
+                    View Project 
+                    <CircleArrowRight />
                   </a>
                 </div>
               ))}
@@ -505,7 +523,7 @@ export default function App() {
 
         {/* ── Footer ── */}
         <footer className="footer">
-          &lt;Built with React + GSAP by Mohamed Abdelrazek /&gt;
+          &lt;Built by Mohamed Abdelrazek /&gt;
         </footer>
 
       </div>
